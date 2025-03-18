@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <title>中文字展示</title>
+    <!-- Manifest 檔案 -->
+    <link rel="manifest" href="manifest.json">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 100%;
+            margin: 20px;
+            text-align: center;
+            padding: 0;
+        }
+        #inputChar {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            width: 80%;
+        }
+        #displayArea {
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #ccc;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            word-break: break-all;
+            width: 80%;
+        }
+        select {
+            padding: 5px;
+            margin: 5px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h2>中文字展示</h2>
+    <input type="text" id="inputChar" maxlength="1" placeholder="請輸入一個中文字">
+    <br>
+    <label>字體：</label>
+    <select id="fontFamily">
+        <option value="Microsoft JhengHei">微軟正黑體</option>
+        <option value="Arial">Arial</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="KaiTi">楷體</option>
+    </select>
+    <br>
+    <label>字型大小：</label>
+    <select id="fontSize">        
+        
+        <option value="60">60px</option>
+        <option value="72">72px</option>
+		<option value="84">84px</option>
+		<option value="96">96px</option>
+		<option value="150">150px</option>
+        <option value="180">180px</option>
+    </select>
+    
+    <div id="displayArea"></div>
+
+    <script>
+        const inputChar = document.getElementById('inputChar');
+        const displayArea = document.getElementById('displayArea');
+        const fontFamily = document.getElementById('fontFamily');
+        const fontSize = document.getElementById('fontSize');
+
+        function updateDisplay() {
+            const char = inputChar.value;
+            const font = fontFamily.value;
+            const size = fontSize.value;
+            
+            displayArea.textContent = char;
+            displayArea.style.fontFamily = font;
+            displayArea.style.fontSize = size + 'px';
+        }
+
+        inputChar.addEventListener('input', function(e) {
+            if (this.value.length > 1) {
+                this.value = this.value.slice(0, 1);
+            }
+            updateDisplay();
+        });
+
+        fontFamily.addEventListener('change', updateDisplay);
+        fontSize.addEventListener('change', updateDisplay);
+
+        // Service Worker 註冊
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker 註冊成功');
+                    })
+                    .catch(error => {
+                        console.log('Service Worker 註冊失敗:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
