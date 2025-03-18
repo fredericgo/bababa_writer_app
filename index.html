@@ -44,7 +44,7 @@
 </head>
 <body>
     <h2>中文字展示</h2>
-    <input type="text" id="inputChar" maxlength="1" placeholder="請輸入一個中文字">
+    <input type="text" id="inputChar" placeholder="請輸入一個中文字">
     <br>
     <label>字體：</label>
     <select id="fontFamily">
@@ -84,9 +84,9 @@
         }
 
         inputChar.addEventListener('input', function(e) {
-            if (this.value.length > 1) {
-                this.value = this.value.slice(0, 1);
-            }
+            //if (this.value.length > 1) {
+            //    this.value = this.value.slice(0, 1);
+            //}
             updateDisplay();
         });
 
